@@ -28,16 +28,17 @@ public class Main {
 //			DefaultExecutor executor = new DefaultExecutor();
 //			executor.setExitValue(1);
 			try {
+				System.out.println("I'm trying to start "+path);
 				Runtime.getRuntime().exec("cmd /c start "+path);
 //				int exitValue = executor.execute(commandLine);
 //				System.out.println("Executed. Exit value: "+exitValue);
 			} catch (ExecuteException e) {
-				e.printStackTrace();
+				System.out.println("Execute Exception");
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("IO Exception");
 			}
 		} else {
-			System.out.println("Server is listening");
+			System.out.println("Server is already listening");
 		}
 		
 	}
