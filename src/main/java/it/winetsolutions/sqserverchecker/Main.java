@@ -7,6 +7,9 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.io.IOUtils;
@@ -16,6 +19,12 @@ public class Main {
 
     final static String HOST = "localhost";
     final static int PORT = 9000;
+    private static Logger logger;
+
+    static {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+        logger = Logger.getLogger(Main.class.getName());
+    }
 
     public static boolean serverListening() {
 
@@ -56,7 +65,7 @@ public class Main {
     public static void main(String[] args) {
 
         if (serverListening()) {
-            System.out.println("Server is already listening");
+            logger.info("Server is already listening");
             return;
         }
 
@@ -68,19 +77,18 @@ public class Main {
             StringWriter writer = new StringWriter();
             IOUtils.copy(process.getInputStream(), writer, "UTF-8");
 
-            System.out.println(writer.toString());
-            System.out.println(process.exitValue());
+            logger.info(writer.toString());
 
             while (!serverListening()) {
                 Thread.sleep(1000);
             }
 
         } catch (ExecuteException e) {
-            System.out.println("Execute Exception");
+            logger.log(Level.SEVERE,"Execute Exception", e);
         } catch (IOException e) {
-            System.out.println("IO Exception");
-        } catch (Exception e) {
-            System.out.println("Exception");
+            logger.log(Level.SEVERE,"IO Exception", e);
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE,"Interrupted Exception", e);
         }
     }
 }
