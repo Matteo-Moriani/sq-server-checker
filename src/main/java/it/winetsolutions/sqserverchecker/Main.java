@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.io.IOUtils;
 
-
 public class Main {
 
+    final static String PROTOCOL = "http";
     final static String HOST = "localhost";
     final static int PORT = 9000;
     private static Logger logger;
@@ -32,7 +32,7 @@ public class Main {
 
         try {
 
-            URL url = new URL("http://" + HOST + ":" + PORT + "/api/server");
+            URL url = new URL(PROTOCOL + "://" + HOST + ":" + PORT + "/api/server");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -84,11 +84,11 @@ public class Main {
             }
 
         } catch (ExecuteException e) {
-            logger.log(Level.SEVERE,"Execute Exception", e);
+            logger.log(Level.SEVERE, "Execute Exception", e);
         } catch (IOException e) {
-            logger.log(Level.SEVERE,"IO Exception", e);
+            logger.log(Level.SEVERE, "IO Exception", e);
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE,"Interrupted Exception", e);
+            logger.log(Level.SEVERE, "Interrupted Exception", e);
         }
     }
 }
