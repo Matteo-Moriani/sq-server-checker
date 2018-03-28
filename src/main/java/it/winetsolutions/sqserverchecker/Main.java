@@ -30,7 +30,7 @@ public class Main {
 
         try {
 
-            URL url = new URL(PROTOCOL + "://" + HOST + ":" + PORT + "/api/server");
+            URL url = new URL(PROTOCOL + "://" + HOST + ":" + PORT + "/api/server/status");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -48,7 +48,6 @@ public class Main {
                     output += line;
                 }
             }
-
             return output.contains("UP");
 
         } catch (Exception e) {
@@ -87,7 +86,7 @@ public class Main {
             }
 
         } catch (IOException | InterruptedException | RuntimeException e) {
-            logger.log(Level.SEVERE, "EXCEPTION", e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         
     }
