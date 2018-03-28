@@ -3,6 +3,10 @@
   <groupId>it.winetsolutions</groupId>
   <artifactId>sq-server-checker</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+
+  <properties>
+  	<java.version>1.8</java.version>
+  </properties>
   
   <dependencies>
     <dependency>

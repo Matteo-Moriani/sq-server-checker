@@ -5,20 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.Socket;
 import java.net.URL;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
-import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.io.IOUtils;
+
 
 public class Main {
 
     final static String PROTOCOL = "http";
     final static String HOST = "localhost";
     final static int PORT = 9000;
+    final static int MAX_WAIT = 60;
     private static Logger logger;
 
     static {
@@ -46,7 +44,7 @@ public class Main {
             String output = "";
             String line;
             while ((line = br.readLine()) != null) {
-                if (line != null) {
+                if (line != null) {						
                     output += line;
                 }
             }
@@ -79,16 +77,18 @@ public class Main {
 
             logger.info(writer.toString());
 
-            while (!serverListening()) {
+            int secondsWaited = 0;
+            while (!serverListening() && (secondsWaited <= MAX_WAIT)) {
                 Thread.sleep(1000);
+                secondsWaited++;
+            }
+            if (secondsWaited > MAX_WAIT) {
+            	throw new RuntimeException("Waiting for the sever to initialize took more than " + MAX_WAIT + "seconds.");
             }
 
-        } catch (ExecuteException e) {
-            logger.log(Level.SEVERE, "Execute Exception", e);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "IO Exception", e);
-        } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Interrupted Exception", e);
+        } catch (IOException | InterruptedException | RuntimeException e) {
+            logger.log(Level.SEVERE, "EXCEPTION", e);
         }
+        
     }
 }
