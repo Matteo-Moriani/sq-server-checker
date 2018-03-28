@@ -30,7 +30,7 @@ public class Main {
 
         try {
 
-            URL url = new URL(PROTOCOL + "://" + HOST + ":" + PORT + "/api/server/status");
+            URL url = new URL(PROTOCOL + "://" + HOST + ":" + PORT + "/api/system/status");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
